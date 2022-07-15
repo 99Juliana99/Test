@@ -1,158 +1,95 @@
-﻿abstract class GeomFigure
+﻿using System;
+
+Square square = new Square(1);
+int calculatedSquareForSquare = square.CalculateSquare();
+Console.WriteLine($"Result of calculation square for square with side '{square.Side}' = {calculatedSquareForSquare}");
+
+Triangle triangle = new Triangle(4, 4, 4);
+double calculatedSquareForTriangle = triangle.CalculateSquare();
+Console.WriteLine($"Result of calculation square for triangle with sides '{triangle.Side1}', '{triangle.Side2}', '{triangle.Side3}' = {calculatedSquareForTriangle}");
+
+Rectangle rectangle = new Rectangle(5, 6);
+int calculatedSquareForRectangle = rectangle.CalculateSquare();
+Console.WriteLine($"Result of calculation square for rectangle with sides '{rectangle.Side1}', '{rectangle.Side2}' = {calculatedSquareForRectangle}");
+
+Circle circle = new Circle(7);
+double calculatedSquareForCircle = circle.CalculateSquare();
+Console.WriteLine($"Result of calculation square for circle with radius '{circle.Radius}' = {calculatedSquareForCircle}");
+
+public static class FigureHelper
 {
+    public static int CalculateSquare(this Square square)
+    {
+        return square.Side * square.Side;
+    }
 
-    abstract public double sFigure();
-    abstract public double pFigure();
-}
-class Triangle : GeomFigure
-{
-    double a, b, c;
-    public Triangle(double a, double b, double c)
+    public static double CalculateSquare(this Triangle triangle)
     {
-        this.a = a;
-        this.b = b;
-        this.c = c;
+        double p = (triangle.Side1 + triangle.Side2 + triangle.Side3) / 2;
+        return Math.Sqrt(p * (p - triangle.Side1) * (p - triangle.Side2) * (p - triangle.Side3));
     }
-    public override double sFigure()
-    {
-        {
-            double p = (a + b + c) / 2;
-            return Math.Sqrt(p * (p - a) * (p - b) * (p - c));
-        }
-    }
-    public override double pFigure()
-    {
-        return (a + b + c);
 
+    public static int CalculateSquare(this Rectangle rectangle)
+    {
+        return rectangle.Side1 * rectangle.Side2;
     }
-}
 
-class Square : GeomFigure
-{
-    double a;
-    public Square(double a)
+    public static double CalculateSquare(this Circle circle)
     {
-        this.a = a;
-
-    }
-    public override double sFigure()
-    {
-        return a * a;
-    }
-    public override double pFigure()
-    {
-        return 4 * a;
+        return Math.PI * circle.Radius * circle.Radius;
     }
 }
 
-class Rhombus : GeomFigure
+public abstract class Figure
 {
-    double a, b, c;
-    public Rhombus(double a, double b, double c)
-    {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-    }
-    public override double sFigure()
-    {
+}
 
-        return b * c / 2;
-    }
-    public override double pFigure()
+public class Square : Figure
+{
+    public int Side;
+
+    public Square(int side)
     {
-        return 4 * a;
+        this.Side = side;
     }
 }
 
-class Rectangle : GeomFigure
+public class Triangle : Figure
 {
-    double a, b;
-    public Rectangle(double a, double b)
+    public int Side1;
+    public int Side2;
+    public int Side3;
+
+
+    public Triangle(int side1, int side2, int side3)
     {
-        this.a = a;
-        this.b = b;
-    }
-    public override double sFigure()
-    {
-        return a * b;
-    }
-    public override double pFigure()
-    {
-        return (a + b) * 2;
+        this.Side1 = side1;
+        this.Side2 = side2;
+        this.Side3 = side3;
     }
 }
 
-class Parallel : GeomFigure
+public class Rectangle : Figure
 {
-    double a, h, b;
-    public Parallel(double a, double h, double b)
+    public int Side1;
+    public int Side2;
+
+
+    public Rectangle(int side1, int side2)
     {
-        this.a = a;
-        this.h = h;
-        this.b = b;
+        this.Side1 = side1;
+        this.Side2 = side2;
     }
-    public override double pFigure()
-    {
-        return 2 * (a + b);
-    }
-    public override double sFigure()
-    {
-        return a * h;
-    }
+
+
 }
 
-class Trapezium : GeomFigure
+public class Circle : Figure
 {
-    double a, b, c, d, h;
-    public Trapezium(double a, double b, double c, double d, double h)
+    public int Radius;
+
+    public Circle(int radius)
     {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.d = d;
-        this.h = h;
-    }
-    public override double sFigure()
-    {
-        return ((a + b) / 2) * h;
-    }
-    public override double pFigure()
-    {
-        return a + b + c + d;
+        this.Radius = radius;
     }
 }
-
-class Circle : GeomFigure
-{
-    double r;
-    public Circle(double r)
-    {
-        this.r = r;
-    }
-    public override double sFigure()
-    {
-        return 3.14 * (r * r);
-    }
-    public override double pFigure()
-    {
-        return 2 * 3.14 * r;
-    }
-}
-
-class Ellipse : GeomFigure
-{
-    int a, b;
-    public Ellipse(int a, int b)
-    {
-        this.a = a;
-        this.b = b;
-    }
-    public override double sFigure()
-    {
-        return 3.14 * a * b;
-    }
-    public override double pFigure()
-    {
-        return a + b;
-    }
